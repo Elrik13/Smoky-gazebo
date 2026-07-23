@@ -1,0 +1,3 @@
+# Ігнорувати налаштування IDE JetBrains
+.idea/
+.venv/

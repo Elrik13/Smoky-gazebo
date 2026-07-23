@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoky Gazebo Club</title>
+    <!-- Підключаємо Bootstrap 5 (темна тема) -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>
+        body { background-color: #1a1a1a; color: #f4f4f4; font-family: 'Georgia', serif; }
+        .navbar { background-color: #2d251e !important; border-bottom: 2px solid #d4af37; }
+        .navbar-brand, .nav-link { color: #d4af37 !important; }
+        .card { background-color: #262626; border: 1px solid #3d3d3d; color: #e0e0e0; }
+        .text-gold { color: #d4af37; }
+        .btn-gold { background-color: #d4af37; color: #1a1a1a; font-weight: bold; }
+        .btn-gold:hover { background-color: #b89528; color: #1a1a1a; }
+    </style>
+</head>
+<body>
+
+    <!-- Навігаційна панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">💨 Smoky Gazebo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link fw-bold text-white me-3" href="{{ url_for('profile') }}">🙋‍♂️ {{ current_user.username }}</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-danger btn-sm" href="{{ url_for('logout') }}">Вихід</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('login') }}">Вхід</a></li>
+                        <li class="nav-item"><a class="btn btn-gold btn-sm ms-2" href="{{ url_for('register') }}">Реєстрація</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Відображення сповіщень сайту (успіх/помилка) -->
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{% if category == 'error' %}danger{% else %}success{% endif %} text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Основний контент, який змінюється на кожній сторінці -->
+    <div class="container py-3">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="text-center py-4 mt-5 text-white-50 border-top border-secondary">
+        <p>© 2026 Smoky Gazebo Club. Зроблено для правильних п'ятниць 🥃🍂</p>
+    </footer>
+
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>

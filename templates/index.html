@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-5 py-4 bg-dark rounded border border-secondary">
+    <h1 class="display-5 fw-bold text-gold">Клубний Трекер Дегустацій</h1>
+    <p class="lead text-white-50">Оцінюємо релізи, фіксуємо враження кожної п'ятниці</p>
+</div>
+
+<div class="row">
+    <!-- РОЗДІЛ ВІСКІ -->
+    <div class="col-md-6 mb-4">
+        <h2 class="text-gold border-bottom border-secondary pb-2 mb-3">🥃 Колекція Віскі</h2>
+        {% if not whiskeys %}
+            <p class="text-white-50">Тут поки порожньо. Спочатку зареєструйтеся, щоб наповнювати базу!</p>
+        {% endif %}
+        <div class="row row-cols-1 g-3">
+            {% for item in whiskeys %}
+            <div class="col">
+                <div class="card h-100 flex-row align-items-center p-2">
+                    <img src="{{ item.image_url or 'https://unsplash.com' }}" class="rounded" style="width: 80px; height: 80px; object-fit: cover;">
+                    <div class="card-body py-1">
+                        <h5 class="card-title mb-0 text-gold">{{ item.name }}</h5>
+                        <small class="text-white-50">{{ item.brand }}</small>
+                        <p class="card-text small text-truncate mb-1">{{ item.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- РОЗДІЛ СИГАР -->
+    <div class="col-md-6 mb-4">
+        <h2 class="text-gold border-bottom border-secondary pb-2 mb-3">🍂 Карта Сигар</h2>
+        {% if not cigars %}
+            <p class="text-white-50">Жодної сигари ще не продегустовано.</p>
+        {% endif %}
+        <div class="row row-cols-1 g-3">
+            {% for item in cigars %}
+            <div class="col">
+                <div class="card h-100 flex-row align-items-center p-2">
+                    <img src="{{ item.image_url or 'https://unsplash.com' }}" class="rounded" style="width: 80px; height: 80px; object-fit: cover;">
+                    <div class="card-body py-1">
+                        <h5 class="card-title mb-0 text-gold">{{ item.name }}</h5>
+                        <small class="text-white-50">{{ item.brand }}</small>
+                        <p class="card-text small text-truncate mb-1">{{ item.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
