@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 500px; margin: 40px auto;">
+    <div class="card">
+        <h3 class="text-center text-gold mb-2">📝 Оцінити реліз</h3>
+        <h5 class="text-center text-white-50 mb-4">{{ item.brand }} - {{ item.name }}</h5>
+        
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Ваша оцінка (від 1 до 10)</label>
+                <select name="score" class="form-select" required>
+                    <option value="10">⭐ 10 — Шедевр, купуємо ящик</option>
+                    <option value="9">⭐ 9 — Неймовірно смачно</option>
+                    <option value="8">⭐ 8 — Дуже гідний реліз</option>
+                    <option value="7">⭐ 7 — Хороший, впевнений вибір</option>
+                    <option value="6">⭐ 6 — Нормально, під розмову піде</option>
+                    <option value="5">⭐ 5 — Посередньо, нічого особливого</option>
+                    <option value="4">⭐ 4 — На любителя, не вразив</option>
+                    <option value="3">⭐ 3 — Слабенько, більше не купуємо</option>
+                    <option value="2">⭐ 2 — Погана якість, не рекомендую</option>
+                    <option value="1">⭐ 1 — Жахливо, тільки вилити</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ваші нотатки / Враження (смак, аромат, післясмак)</label>
+                <textarea name="comment" rows="4" class="form-control" placeholder="Відчувається дим, торф, легкі нотки карамелі..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold w-100">Зберегти оцінку</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
