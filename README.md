@@ -1,2 +1,2 @@
 # Smoky-gazebo
-Website for tracking and evalueting cigars and whiskey
+Website for tracking and evaluating cigars and whiskey
