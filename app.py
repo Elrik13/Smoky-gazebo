@@ -1,9 +1,11 @@
+from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from sqlalchemy import func
 import os
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev-secret-key-12345'  # Секретний ключ для захисту сесій
@@ -137,6 +139,37 @@ def add_item():
         return redirect(url_for('index'))
 
     return render_template('add_item.html')
+
+
+# Виставлення оцінки продукту
+@app.route('/rate/<int:item_id>', methods=['GET', 'POST'])
+@login_required
+def rate_item(item_id):
+    item = Item.query.get_or_404(item_id)
+
+    # Перевіряємо, чи цей користувач вже ставив оцінку цьому продукту
+    existing_rating = Rating.query.filter_by(user_id=current_user.id, item_id=item.id).first()
+    if existing_rating:
+        flash(f'Ви вже оцінювали реліз "{item.name}"!', 'error')
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        score = int(request.form.get('score'))
+        comment = request.form.get('comment')
+
+        new_rating = Rating(
+            score=score,
+            comment=comment,
+            user_id=current_user.id,
+            item_id=item.id
+        )
+        db.session.add(new_rating)
+        db.session.commit()
+
+        flash(f'Вашу оцінку для "{item.name}" успішно збережено!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('rate_item.html', item=item)
 
 
 # Автоматичне створення бази даних при першому запуску додатку
