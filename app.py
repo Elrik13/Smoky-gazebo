@@ -111,6 +111,34 @@ def logout():
     return redirect(url_for('index'))
 
 
+# Додавання нової сигари або віскі (доступно всім авторизованим)
+@app.route('/add', methods=['GET', 'POST'])
+@login_required
+def add_item():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        brand = request.form.get('brand')
+        category = request.form.get('category')
+        description = request.form.get('description')
+        image_url = request.form.get('image_url')
+
+        # Створюємо новий запис у базі
+        new_item = Item(
+            name=name,
+            brand=brand,
+            category=category,
+            description=description,
+            image_url=image_url
+        )
+        db.session.add(new_item)
+        db.session.commit()
+
+        flash(f'"{name}" успішно додано до списку!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('add_item.html')
+
+
 # Автоматичне створення бази даних при першому запуску додатку
 with app.app_context():
     db.create_all()

@@ -4,47 +4,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smoky Gazebo Club</title>
-    <!-- Підключаємо Bootstrap 5 (темна тема) -->
-    <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
-        body { background-color: #1a1a1a; color: #f4f4f4; font-family: 'Georgia', serif; }
-        .navbar { background-color: #2d251e !important; border-bottom: 2px solid #d4af37; }
-        .navbar-brand, .nav-link { color: #d4af37 !important; }
-        .card { background-color: #262626; border: 1px solid #3d3d3d; color: #e0e0e0; }
-        .text-gold { color: #d4af37; }
-        .btn-gold { background-color: #d4af37; color: #1a1a1a; font-weight: bold; }
-        .btn-gold:hover { background-color: #b89528; color: #1a1a1a; }
+        /* Наш вбудований дизайн — тепер працює на 100% локально */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', sans-serif;
+            padding-bottom: 40px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Шапка сайту */
+        .navbar {
+            background-color: #1e1b18;
+            border-bottom: 2px solid #c9a054;
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .navbar-brand { color: #c9a054; font-size: 1.5rem; font-weight: bold; text-decoration: none; }
+        .navbar-nav { display: flex; gap: 15px; align-items: center; list-style: none; }
+        .nav-link { color: #b3b3b3; text-decoration: none; font-weight: 500; }
+        .nav-link:hover { color: #c9a054; }
+
+        /* Кнопки */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .btn-gold { background-color: #c9a054; color: #121212; border: none; }
+        .btn-gold:hover { background-color: #b08a42; }
+        .btn-outline-warning { border: 1px solid #c9a054; color: #c9a054; background: none; }
+        .btn-outline-warning:hover { background-color: #c9a054; color: #121212; }
+        .btn-outline-danger { border: 1px solid #dc3545; color: #dc3545; background: none; }
+        .btn-outline-danger:hover { background-color: #dc3545; color: white; }
+
+        /* Сітка картки та форми */
+        .row { display: flex; flex-wrap: wrap; margin: 0 -15px; }
+        .col-md-6 { flex: 0 0 50%; padding: 0 15px; }
+        @media (max-width: 768px) {
+            .col-md-6 { flex: 0 0 100%; }
+            .navbar-nav { gap: 8px; }
+        }
+        .card {
+            background-color: #1a1816;
+            border: 1px solid #332d29;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .text-gold { color: #c9a054; }
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .w-100 { width: 100%; }
+
+        /* Поля форми */
+        .form-label { display: block; margin-bottom: 8px; font-weight: 500; color: #b3b3b3; text-align: left; }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 10px;
+            background-color: #121212;
+            border: 1px solid #332d29;
+            color: white;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .form-control:focus, .form-select:focus { border-color: #c9a054; outline: none; }
+
+        .alert { padding: 12px; border-radius: 6px; margin-bottom: 20px; text-align: center; }
+        .alert-danger { background-color: #5c1d24; color: #f8d7da; border: 1px solid #f5c2c7; }
+        .alert-success { background-color: #1e4620; color: #d1e7dd; border: 1px solid #badbcc; }
+        footer { text-align: center; padding: 20px 0; margin-top: 40px; color: #666; border-top: 1px solid #222; }
     </style>
 </head>
 <body>
 
     <!-- Навігаційна панель -->
-    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+    <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">💨 Smoky Gazebo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    {% if current_user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link fw-bold text-white me-3" href="{{ url_for('profile') }}">🙋‍♂️ {{ current_user.username }}</a></li>
-                        <li class="nav-item"><a class="btn btn-outline-danger btn-sm" href="{{ url_for('logout') }}">Вихід</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link text-white" href="{{ url_for('login') }}">Вхід</a></li>
-                        <li class="nav-item"><a class="btn btn-gold btn-sm ms-2" href="{{ url_for('register') }}">Реєстрація</a></li>
-                    {% endif %}
-                </ul>
-            </div>
+            <a class="navbar-brand" href="{{ url_for('index') }}">💨 Smoky Gazebo</a>
+            <ul class="navbar-nav">
+                {% if current_user.is_authenticated %}
+                    <li><a class="btn btn-outline-warning" href="{{ url_for('add_item') }}">➕ Додати позицію</a></li>
+                    <li><a class="nav-link fw-bold" href="{{ url_for('profile') }}">🙋‍♂️ {{ current_user.username }}</a></li>
+                    <li><a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Вихід</a></li>
+                {% else %}
+                    <li><a class="nav-link" href="{{ url_for('login') }}">Вхід</a></li>
+                    <li><a class="btn btn-gold" href="{{ url_for('register') }}">Реєстрація</a></li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
 
-    <!-- Відображення сповіщень сайту (успіх/помилка) -->
+    <!-- Сповіщення Flash -->
     <div class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{% if category == 'error' %}danger{% else %}success{% endif %} text-center">
+                    <div class="alert alert-{% if category == 'error' %}danger{% else %}success{% endif %}">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -52,16 +118,14 @@
         {% endwith %}
     </div>
 
-    <!-- Основний контент, який змінюється на кожній сторінці -->
-    <div class="container py-3">
+    <!-- Контент -->
+    <div class="container">
         {% block content %}
         {% endblock %}
     </div>
 
-    <footer class="text-center py-4 mt-5 text-white-50 border-top border-secondary">
+    <footer>
         <p>© 2026 Smoky Gazebo Club. Зроблено для правильних п'ятниць 🥃🍂</p>
     </footer>
-
-    <script src="https://jsdelivr.net"></script>
 </body>
 </html>
