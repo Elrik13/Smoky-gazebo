@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="max-width: 500px; margin: 40px auto;">
+    <div class="card">
+        <h3 class="text-center text-gold mb-4">🥃 Додати новий реліз 🍂</h3>
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Категорія</label>
+                <select name="category" class="form-select" required>
+                    <option value="whiskey">🥃 Віскі</option>
+                    <option value="cigar">🍂 Сигара</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Назва продукту</label>
+                <input type="text" name="name" class="form-control" placeholder="напр. Quarter Cask" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Бренд / Виробник</label>
+                <input type="text" name="brand" class="form-control" placeholder="напр. Laphroaig" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Посилання на фотографія (URL)</label>
+                <input type="url" name="image_url" class="form-control" placeholder="https://example.com">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Короткий опис / Враження</label>
+                <textarea name="description" rows="3" class="form-control" placeholder="Торф'яний, димний..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold w-100">Додати на сайт</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
